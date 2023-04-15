@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RickAndMortyTableViewCell: UITableViewCell {
+final class RickAndMortyTableViewCell: UITableViewCell {
 
     // MARK: - Private IBOutlet
     @IBOutlet private weak var mainView: UIView!

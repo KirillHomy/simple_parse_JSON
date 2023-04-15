@@ -22,8 +22,8 @@ class RickAndMortyService {
             guard let data = data else { return }
 
             // Show json
-            //            guard let jsonString = String(data: data, encoding: .utf8) else { return }
-            //            print(jsonString)
+//            guard let jsonString = String(data: data, encoding: .utf8) else { return }
+//            print(jsonString)
 
             do {
                 let rickAndMortyModel = try JSONDecoder().decode(RickAndMortyModel.self, from: data)

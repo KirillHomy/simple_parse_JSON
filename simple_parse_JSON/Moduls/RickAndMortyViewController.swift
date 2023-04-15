@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class RickAndMortyViewController: UIViewController {
 
     // MARK: - Private constant
     private let urlString = "https://rickandmortyapi.com/api/character"
@@ -23,24 +23,30 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        rickAndMortyService.request(urlString: urlString) { [weak self] rickAndMortyModel, error in
-            guard let rickAndMortyModel = rickAndMortyModel else { return }
-            guard let sSelf = self else { return }
-            rickAndMortyModel.results.map { name in
-                print("\(name.image) ")
-            }
-            sSelf.rickAndMortyModel = rickAndMortyModel
-        }
         setupUI()
     }
 
 }
 
 // MARK: - Private extension
-private extension ViewController {
+private extension RickAndMortyViewController {
 
     func setupUI() {
+        setupRequest()
         setupTableView()
+        setupNavigationController()
+    }
+
+    func setupRequest() {
+        rickAndMortyService.request(urlString: urlString) { [weak self] rickAndMortyModel, error in
+            guard let rickAndMortyModel = rickAndMortyModel else { return }
+            guard let sSelf = self else { return }
+            // Show all image
+//            rickAndMortyModel.results.map { name in
+//                print(name.image)
+//            }
+            sSelf.rickAndMortyModel = rickAndMortyModel
+        }
     }
 
     func setupTableView() {
@@ -49,10 +55,21 @@ private extension ViewController {
         tableView.register(RickAndMortyTableViewCell.nib(), forCellReuseIdentifier: "RickAndMortyTableViewCell")
     }
 
+    func setupNavigationController() {
+        guard let navigationController = navigationController else { return }
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController.navigationBar.shadowImage = UIImage()
+        navigationController.navigationBar.isTranslucent = true
+        navigationController.navigationBar.isOpaque = true
+        navigationItem.title = "Rick and Morty"
+        navigationItem.backButtonTitle = ""
+    }
+
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension RickAndMortyViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let rickAndMortyModel = rickAndMortyModel else { return 0 }
